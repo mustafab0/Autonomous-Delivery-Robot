@@ -3,7 +3,7 @@
 
 
 
-void readPosition(void *par){
+void lineFollower(void *par){
 
   int time[8];
     while(1){

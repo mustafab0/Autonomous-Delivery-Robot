@@ -1,2 +1,2 @@
 
-void readPosition(void *par);
+void lineFollower(void *par);
