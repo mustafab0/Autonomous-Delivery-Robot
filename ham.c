@@ -33,6 +33,29 @@ void lineFollower (void *par){
       }
       //print("average sum = %d\n",avg);
       avg = avg/8;
+      
+      //printf(OUTA1=%n\n",position);
+      int error = GOAL - avg;		
+      //We check difference between goal and current position
+      //printf("error= ");
+      //printf(error);
+     
+      // Compute motor adjustment
+      int adjustment = KP*error + KD*(error - lastError); //PID tuning
+     
+      // Store error for next increment
+      lastError = error;
+      //printf("adjustment= ");
+      //printf(adjustment);
+      //printf('\t');
+      //delay(250);
+      
+      
+      // servoLeft.writeMicroseconds(constrain(1550 + adjustment, 1490, 1550)); 
+      servo_speed(17,constrain(100 + adjustment, 75, 100));        
+      // servoRight.writeMicroseconds(constrain(1420 + adjustment, 1420, 1490));        // We make slight adjustments based on the KP and KD we calculated
+      servo_speed(16,constrain(100 + adjustment, 75, 100));        
+      pause(1);
            
     }      
     
@@ -75,3 +98,51 @@ void look (char *dir){
     }
 }
 
+void turn(char *dirn){
+  
+   char f = (char)dirn[0];
+   
+   switch(f){
+    case 'L':
+    for(int i = 0; i<40;i++){
+       //servoLeft.writeMicroseconds(1300);
+       servo_speed(17, 100);         
+   // 1.3 ms full speed anti clockwise
+       //servoRight.writeMicroseconds(1300);    
+       servo_speed(16, -100);     
+   // 1.3 ms full speed anti clockwise
+       delay(20);
+    }
+    stop();
+    break;
+    case 'R':
+    for(int i = 0; i<40;i++){  
+       //servoLeft.writeMicroseconds(1700);
+       servo_speed(17, 100);           
+  // 1.3 ms full speed anti clockwise
+       //servoRight.writeMicroseconds(1700);
+       servo_speed(16, -100);          
+  // 1.3 ms full speed anti clockwise
+       delay(20);
+      }
+      stop();
+      break;
+     default:
+     for(int i=0;i<75;i++){
+      //servoLeft.writeMicroseconds(1700);  
+      servo_speed(17, 100);       
+  // 1.3 ms full speed anti clockwise
+      //servoRight.writeMicroseconds(1700);
+      servo_speed(16, 100);       
+   // 1.3 ms full speed anti clockwise
+      delay(20);
+      }
+      stop();
+   }
+   
+}
+
+
+int constrain(int amt, int low, int high) {
+  return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
+}  
