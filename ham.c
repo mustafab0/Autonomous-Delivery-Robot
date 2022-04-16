@@ -113,7 +113,7 @@ void turn(char *dirn){
    
    switch(f){
     case 'L':
-    for(int i = 0; i<40;i++){
+    for(int i = 0; i<30;i++){
        //servoLeft.writeMicroseconds(1300);
        servo_speed(17, -100);         
    // 1.3 ms full speed anti clockwise
@@ -125,7 +125,7 @@ void turn(char *dirn){
     stop();
     break;
     case 'R':
-    for(int i = 0; i<40;i++){  
+    for(int i = 0; i<30;i++){  
        //servoLeft.writeMicroseconds(1700);
        servo_speed(17, 100);           
   // 1.3 ms full speed anti clockwise
