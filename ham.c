@@ -1,11 +1,11 @@
 #include "simpletools.h"
 #include "servo.h"
 #include "ping.h"
-#include "ham.h"
+//#include "ham.h"
 
 ;
 
-
+volatile int leftFlag;
 void lineFollower (void *par){
 
   int time[8];
@@ -38,18 +38,18 @@ void lineFollower (void *par){
     
 } 
 
-void measure (void *par) // Main function
+int measure (void *par) // Main function
 {
-    int cmDist = ping_cm(6); // Get cm distance from Ping)))
+    int cmDist = ping_cm(15); // Get cm distance from Ping)))
     int cm_dist = cmDist;
     print("cmDist = %d\n", cmDist);
     pause(200); // Wait 1/5 second
     //cm_dist = cm_dist+cmDist;
-    
+    return cmDist;
 }
 
 void look (char *dir){  
-
+    int waitTime = 400;
 
     char k = (char)dir[0];
     print("direction = %c\n", k);
@@ -57,21 +57,65 @@ void look (char *dir){
     switch (k)
     {
     case 'L':
-      servo_angle(15, 1600);
-      pause(1000);
+      servo_angle(6, 1600);
+      pause(waitTime);
       break;
    
     case 'R':
-      servo_angle(15, 100);
-      pause(1000);
+      servo_angle(6, 100);
+      pause(waitTime);
       break;
    
     case 'C':
-      servo_angle(15, 800);
-      pause(1000);
+      servo_angle(6, 800);
+      pause(waitTime);
       break;
       default:
       break;
     }
 }
+
+void scan(void *par){
+  
+
+  char dr;
+  //int dr[] = {'L','C','R'};
+  simpleterm_open(); 
+  pause(50);
+  //print("direction = %d\n",k);
+  //char dr 'L';
+  dr = 'L';
+  look(&dr);
+  //pause(250); 
+  //cm_dist;
+  for (int n = 0;n<=1;n++){
+     cm_dist = measure(NULL);
+    }   
+  if (cm_dist <60){
+      leftFlag = 1;
+    }
+  dr = 'C';
+  look(&dr);
+  //pause(250); 
+  //cm_dist;
+  for (int n = 0;n<=1;n++){
+     cm_dist = measure(NULL);
+  }   
+  if (cm_dist <60){
+      centreFlag = 1;
+    } 
+  dr = 'R';
+  look(&dr);
+  //pause(250); 
+  //cm_dist;
+  for (int n = 0;n<=1;n++){
+     cm_dist = measure(NULL);
+  }   
+  if (cm_dist <60){
+      rightFlag = 1;
+    } 
+  print("Left Object = %d, Centre Object = %d, Right Object = %d,\n",leftFlag, centreFlag, rightFlag);
+  pause(1000);
+  simpleterm_close();
+}  
 
