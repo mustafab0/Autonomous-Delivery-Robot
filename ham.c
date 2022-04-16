@@ -5,6 +5,8 @@
 
 ;
 
+int constrain(int amt, int low, int high);
+void stop();
 
 void lineFollower (void *par){
 
@@ -17,6 +19,11 @@ void lineFollower (void *par){
       simpleterm_close();
       pause(2000);
       */
+      int GOAL = 3000;
+      const double KP = 0.035; //0.04                
+      const double KD = 0.03;
+      volatile int position;
+      volatile double lastError = 0;  
       for(int i = 7;i<=14;i++){
         high(i);
         pause(10);
@@ -52,9 +59,11 @@ void lineFollower (void *par){
       
       
       // servoLeft.writeMicroseconds(constrain(1550 + adjustment, 1490, 1550)); 
-      servo_speed(17,constrain(100 + adjustment, 75, 100));        
+      servo_speed(17,constrain(100 + adjustment, 75, 100));  
+      //servo_speed(17,100);        
       // servoRight.writeMicroseconds(constrain(1420 + adjustment, 1420, 1490));        // We make slight adjustments based on the KP and KD we calculated
-      servo_speed(16,constrain(100 + adjustment, 75, 100));        
+      servo_speed(16,constrain(-100 + adjustment, 75, -100)); 
+      //servo_speed(16,-100);         
       pause(1);
            
     }      
@@ -109,9 +118,9 @@ void turn(char *dirn){
        servo_speed(17, 100);         
    // 1.3 ms full speed anti clockwise
        //servoRight.writeMicroseconds(1300);    
-       servo_speed(16, -100);     
+       servo_speed(16, 100);     
    // 1.3 ms full speed anti clockwise
-       delay(20);
+       pause(20);
     }
     stop();
     break;
@@ -121,9 +130,9 @@ void turn(char *dirn){
        servo_speed(17, 100);           
   // 1.3 ms full speed anti clockwise
        //servoRight.writeMicroseconds(1700);
-       servo_speed(16, -100);          
+       servo_speed(16, 100);          
   // 1.3 ms full speed anti clockwise
-       delay(20);
+       pause(20);
       }
       stop();
       break;
@@ -133,9 +142,9 @@ void turn(char *dirn){
       servo_speed(17, 100);       
   // 1.3 ms full speed anti clockwise
       //servoRight.writeMicroseconds(1700);
-      servo_speed(16, 100);       
+      servo_speed(16, -100);       
    // 1.3 ms full speed anti clockwise
-      delay(20);
+      pause(20);
       }
       stop();
    }
@@ -146,3 +155,10 @@ void turn(char *dirn){
 int constrain(int amt, int low, int high) {
   return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
 }  
+
+void stop(){
+  servo_speed(17, 0);         // stop
+  pause(20);
+  servo_speed(16, 0);         // stop
+  pause(20);
+}
