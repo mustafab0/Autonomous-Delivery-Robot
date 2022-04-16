@@ -6,9 +6,11 @@
 #include "ham.h"
 ;
 
-volatile int avg;
-volatile int cm_dist;
+volatile int avg, cm_dist;
+//volatile int k; 
 
+
+void findObject(void *par);
 
 //volatile int n;
 unsigned int stack1[40+25];
@@ -19,39 +21,39 @@ int main()                                    // Main function
 {
     // Add startup code here.
   pause(250);
- 
   simpleterm_close();
-  //int cogn1= cogstart(printFun,NULL,stack2,sizeof(stack2));
-  int cogno= cogstart(lineFollower,NULL,stack1,sizeof(stack1));
+  int cogno  = cogstart(lineFollower,NULL,stack1,sizeof(stack1));
+  int congn1 = cogstart(findObject,NULL,stack2,sizeof(stack2));
   
-  
-  while(1){
-  pause(5000);
-  simpleterm_open();
   pause(250);
-  print("In cog0\n");
-  simpleterm_close();
+  
+  
+  
   
   }  
-/*
-   while(1){
-   simpleterm_open();
-   pause(250);
-   print("In cog0\n");
-   pause(250);
-   print("cogno running %d\n",cogno);
-   simpleterm_close();
- }   
-    */
-}
 
-/*
-1=350
-2=650
-3=1200
-4=3000
-5=3000
-6=3000
-7=3600
-8=4000
-*/
+void findObject(void *par){
+  int dr[] = {'R'};
+  simpleterm_open(); 
+  pause(50);
+  //print("direction = %d\n",k);
+  //char dr = 'L';
+  while(1){
+    //look(&dr);
+    high(26);
+    pause(250);
+    low(26);
+    look((char *)dr);
+    //pause(250); 
+    cm_dist = 0;
+    for (int n = 0;n<=1;n++){
+       measure(NULL);
+      
+    }       
+     //cm_dist = cm_dist/10;
+     //print("cmDist = %d\n", cm_dist); // Display distance
+     //simpleterm_close();
+        
+  }    
+  
+}  
