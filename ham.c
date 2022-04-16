@@ -62,7 +62,7 @@ void lineFollower (void *par){
       servo_speed(17,constrain(100 + adjustment, 75, 100));  
       //servo_speed(17,100);        
       // servoRight.writeMicroseconds(constrain(1420 + adjustment, 1420, 1490));        // We make slight adjustments based on the KP and KD we calculated
-      servo_speed(16,constrain(-100 + adjustment, 75, -100)); 
+      servo_speed(16,constrain(-100 + adjustment, -75, -100)); 
       //servo_speed(16,-100);         
       pause(1);
            
