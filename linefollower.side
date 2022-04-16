@@ -1,11 +1,7 @@
 linefollower.c
 readLine.cpp
 readLine.h
-
-
 lookfunction.cpp
-
-
 >compiler=C++
 >memtype=cmm main ram compact
 >optimize=-Os
