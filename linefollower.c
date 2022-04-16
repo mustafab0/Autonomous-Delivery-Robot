@@ -3,9 +3,11 @@
   http://learn.parallax.com/propeller-c-tutorials 
 */
 #include "simpletools.h"                      // Include simple tools
-#include "readLine.h"
+#include "ham.h"
+;
 
-//volatile int avg;
+volatile int avg;
+volatile int cm_dist;
 
 
 //volatile int n;
@@ -42,38 +44,6 @@ int main()                                    // Main function
  }   
     */
 }
-void printFun(void* par){
-  while(1){
-    pause(250);
-  simpleterm_open();
-  print("In cog0");
-  simpleterm_close();
-}  
-}  
-
-
-void look(char k){
- 
-   
-   
-    switch (k)
-    {
-    case 'L':
-      serv_angle(11, 160);
-      break;
-   
-    case 'R':
-      serv_angle(11, 0);
-      break;
-   
-    case 'C':
-      serv_angle(11, 80);
-      break;
-      default:
-      break;
-    }
-}
-
 
 /*
 1=350

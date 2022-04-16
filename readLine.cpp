@@ -1,6 +1,5 @@
 #include "simpletools.h"
-#include "readLine.h"
-
+#include "ham.h"
 
 
 void lineFollower(void *par){
@@ -35,6 +34,7 @@ void lineFollower(void *par){
     }      
     //return avg;
 }  
+
 
 /*
 #include "simpletools.h"                      // Include simple tools
