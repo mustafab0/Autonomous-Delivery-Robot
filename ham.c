@@ -98,9 +98,11 @@ void look (char *dir){
     }
 }
 
-void turn(char dirn){
+void turn(char *dirn){
+  
+   char f = (char)dirn[0];
    
-   switch(dirn){
+   switch(f){
     case 'L':
     for(int i = 0; i<40;i++){
        //servoLeft.writeMicroseconds(1300);
