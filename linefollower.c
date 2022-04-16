@@ -33,7 +33,7 @@ int main()                                    // Main function
   }  
 
 void findObject(void *par){
-  int dr[] = {'R'};
+  int dr[] = {'L'};
   simpleterm_open(); 
   pause(50);
   //print("direction = %d\n",k);
