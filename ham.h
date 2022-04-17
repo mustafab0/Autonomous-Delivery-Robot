@@ -1,9 +1,9 @@
-
+volatile int leftFlag;
 
 void lineFollower(void *par);
 
-void measure(void *par);
+int measure(void *par);
 
 void look(char *dir);
 
-void turn(char *dirn);
+void scan(void *par);
