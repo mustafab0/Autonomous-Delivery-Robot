@@ -13,6 +13,7 @@ int measure(void *par);
 void look(char *dir);
 void scan(void *par);
 int constrain(int amt, int low, int high);
+void intersectionCounter(void *par);
 
 
 static volatile int leftFlag,rightFlag, centreFlag, avg, cm_dist,position, intersection;
@@ -23,6 +24,7 @@ volatile double lastError = 0;
 
 unsigned int stack1[40+25];
 unsigned int stack2[40+25];
+unsigned int stack3[40+25];
 
 
 int main()                                    // Main function
@@ -31,12 +33,15 @@ int main()                                    // Main function
   pause(250);
   
   print("cog 0\n");
-  
+  //simpleterm_close();
   int linefollower_cog  = cogstart(lineFollower,NULL,stack1,sizeof(stack1));
   //int cogn1 = cogstart(scan,NULL,stack2,sizeof(stack2));
+  int intersectionCounter_cog  = cogstart(intersectionCounter,NULL,stack3,sizeof(stack3));
   
   pause(3000);
+  //print("time = %d\n",time[0]);
   print("intersection = %d\n",intersection);
+  
     
  }  
   
@@ -64,7 +69,7 @@ void lineFollower (void *par){
         
       } 
       int avg = 0;
-      
+      //print("time = %d\n",time[0]);
       if ( time[0] == 2500 && time[1] == 2500 && time[2] == 2500 && time[3] == 2500 && time[4] == 2500 && time[5] == 2500 && time[6] == 2500 && time[7] == 2500){
         
         intersection =1;
@@ -180,3 +185,19 @@ int constrain(int amt, int low, int high) {
   return ((amt)<(low)?(low):((amt)>(high)?(high):(amt)));
 }  
 
+void intersectionCounter(void *par){
+  while(1){
+    if(intersection){ 
+      //4 green 
+      high(4);
+      pause(100);
+      low(4);
+      pause(100);
+      //5 red
+      high(5);
+      pause(100);
+      low(5);
+      pause(100);
+    }  
+  }    
+}  
