@@ -45,7 +45,7 @@ void findObject(void *par){
     low(26);
     look((char *)dr);
     //for(v=0,v<50,v++){
-      turn((char *)dr);
+    //  turn((char *)dr);
     //}    
     
     //pause(250); 
