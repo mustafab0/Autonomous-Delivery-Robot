@@ -11,6 +11,7 @@ void stop();
 void lineFollower (void *par){
 
   int time[8];
+  volatile double lastError = 0;  
     while(1){
       
       /*simpleterm_open();
@@ -19,11 +20,11 @@ void lineFollower (void *par){
       simpleterm_close();
       pause(2000);
       */
-      int GOAL = 3000;
-      const double KP = 0.035; //0.04                
-      const double KD = 0.03;
+      int GOAL = 1860;
+      const double KP = 0.03; //0.04                
+      const double KD = 0.;
       volatile int position;
-      volatile double lastError = 0;  
+      
       for(int i = 7;i<=14;i++){
         high(i);
         pause(10);
@@ -59,10 +60,16 @@ void lineFollower (void *par){
       
       
       // servoLeft.writeMicroseconds(constrain(1550 + adjustment, 1490, 1550)); 
-      servo_speed(17,constrain(100 + adjustment, 75, 100));  
+      
+      //int con = constrain(75 + adjustment, 25, 75);
+      //print("adjustment = %d\n", con);
+      //servo_speed(17,con);  
+      print("adjustment = %d\n", adjustment);
+      servo_set(17,constrain(1550 + adjustment, 1490, 1550)); 
       //servo_speed(17,100);        
       // servoRight.writeMicroseconds(constrain(1420 + adjustment, 1420, 1490));        // We make slight adjustments based on the KP and KD we calculated
-      servo_speed(16,constrain(-100 + adjustment, -75, -100)); 
+      servo_set(16,constrain(1420 + adjustment, 1420, 1490));
+      //servo_speed(16,constrain(-75 + adjustment, -75, -25)); 
       //servo_speed(16,-100);         
       pause(1);
            
@@ -113,7 +120,7 @@ void turn(char *dirn){
    
    switch(f){
     case 'L':
-    for(int i = 0; i<30;i++){
+    for(int i = 0; i<25;i++){
        //servoLeft.writeMicroseconds(1300);
        servo_speed(17, -100);         
    // 1.3 ms full speed anti clockwise
@@ -121,7 +128,7 @@ void turn(char *dirn){
        servo_speed(16, -100);     
    // 1.3 ms full speed anti clockwise
        pause(20);
-    }
+    };
     stop();
     break;
     case 'R':
@@ -133,7 +140,7 @@ void turn(char *dirn){
        servo_speed(16, 100);          
   // 1.3 ms full speed anti clockwise
        pause(20);
-      }
+      };
       stop();
       break;
      default:
