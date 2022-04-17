@@ -26,33 +26,36 @@ int main()                                    // Main function
 {
     // Add startup code here.
   pause(250);
+  
+  print("cog 0\n");
   simpleterm_close();
   int cogno  = cogstart(lineFollower,NULL,stack1,sizeof(stack1));
-  int cogn1 = cogstart(scan,NULL,stack2,sizeof(stack2));
+  //int cogn1 = cogstart(scan,NULL,stack2,sizeof(stack2));
   
   pause(8000);
-  
-  //cog_end((int*)cogn1);
-  //pause(250);
-  simpleterm_open();
-  pause(250);
-  print("Hi in cog 0 \n");
-  print("Left Object = %d, Centre Object = %d, Right Object = %d,\n", leftFlag, centreFlag, rightFlag);
     
  }  
   
   
 void lineFollower (void *par){
-
+  
+  simpleterm_open();
+  //pause(500);
+  
+  high(26);
+  pause(1000);
+  low(26);
+  
   int time[8];
     while(1){
       
-      /*simpleterm_open();
+      high(26);
+      pause(250);
+      low(26);
+      
       pause(250);
       print("In cog1 = \n");
-      simpleterm_close();
-      pause(2000);
-      */
+      
       for(int i = 7;i<=14;i++){
         high(i);
         pause(10);
@@ -60,16 +63,16 @@ void lineFollower (void *par){
         
         if(time[i-8] >1000) {time[i-8] = 2500;}
         
-        //print("value for pin %d: %d\n",i,time[i-8]);
+        print("value for pin %d: %d\n",i,time[i-8]);
         //time = 0;
       } 
       int avg = 0;
       for(int i = 0; i<=7;i++){
         avg = avg + i*time[i];
       }
-      //print("average sum = %d\n",avg);
       avg = avg/8;
-           
+      print("average sum = %d\n",avg);
+        
     }      
     
 } 
@@ -113,10 +116,9 @@ void look (char *dir){
 
 void scan(void *par){
   
-
   char dr;
   //int dr[] = {'L','C','R'};
-  simpleterm_open(); 
+  
   pause(50);
   //print("direction = %d\n",k);
   //char dr 'L';
@@ -152,7 +154,7 @@ void scan(void *par){
     } 
   print("Left Object = %d, Centre Object = %d, Right Object = %d,\n",leftFlag, centreFlag, rightFlag);
   pause(1000);
-  simpleterm_close();
+  
 }  
 
 
