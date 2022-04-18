@@ -66,7 +66,7 @@ void lineFollower (void *par){
   int objectDetectedNo = 0; 
   int turnedRight, turnedLeft;
   int time[8];
-    while(objectDetectedNo<2){
+    while(1){
      //print("streetno = %d\n",intersection);        
      for(int i = 7;i<=14;i++){
         high(i);
@@ -104,44 +104,76 @@ void lineFollower (void *par){
         intersection=1;
         servo_set(17,1520);
         servo_set(16,1460);
+        pause(200);
       }
       else{
         intersection = 0;
       }        
       
       if(centerFlag==1 && objectDetected){
-        if(streetNo%2==0){
+        if(streetNo%2==0 && UpOrDown == 1 ){
           //print("does this print\n");
           turn('R');
           UpOrDown=!UpOrDown;
           centerFlag = 0;
           A = 1;
         }
-        else if(streetNo%2 == 1 && centerFlag == 1){
+        else if(streetNo%2 == 1 && UpOrDown == 1){
         turn('L');
         UpOrDown=!UpOrDown;
         centerFlag = 0;
         B =1;
         }                 
       }
+      else if(B==1 &&  objectDetected && streetNo == 4){
+        objectDetectedNo=objectDetectedNo+1;
+        turn('R');
+        UpOrDown=!UpOrDown;
+        B=0;
+        centerFlag = 1;
+        objectDetected = 0; 
+      }
+      else if(A==1 &&  objectDetected && streetNo == 1){
+        objectDetectedNo=objectDetectedNo+1;
+        turn('R');
+        UpOrDown=!UpOrDown;
+        A=0;
+        centerFlag = 1;
+        objectDetected = 0;
+        streetNo =1;
+      }
       else if((A==1||B==1) &&  objectDetected){
         objectDetectedNo=objectDetectedNo+1;
-      } 
+      }         
       else if(A==1 && streetNo ==1){
             turn('R');
             UpOrDown=!UpOrDown;
-            A == 0;
+            A = 0;
+            centerFlag = 1;
       }        
         
       else if (streetNo == 4 && B == 1 ) {
           turn('R');
           UpOrDown=!UpOrDown;
-          B==0;
+          B=0;
+          centerFlag = 1;
       } 
       else if ((A == 1 || B== 1) && intersection == 1 && UpOrDown == 0){
          turn('R');
          UpOrDown=!UpOrDown;
-      }                        
+      } 
+      else if (streetNo == 1 && centerFlag == 1 && UpOrDown ==0){
+        if (intersection == 1){
+          B=1;
+          centerFlag = 0;
+        }          
+      }
+      else if (streetNo == 4 && centerFlag == 1 && UpOrDown ==0){
+        if (intersection == 1){
+          A=1;
+          centerFlag = 0;
+        }
+      }                                       
     }      
 } 
 
@@ -174,31 +206,31 @@ void scan(void *par){
       if(cm_dist<30){
          //4 green 
           objectDetected =1;
-          high(3);
-          pause(100);
-          low(3);
-          pause(100);
+          high(0);
+          pause(500);
+          low(0);
+          pause(500);
           //5 red
-          high(2);
-          pause(100);
-          low(2);
-          pause(100); 
+          high(1);
+          pause(500);
+          low(1);
+          pause(500); 
      }   
      else { objectDetected = 0;}  
     }
     else{
-       if(cm_dist<11){
+       if(cm_dist<20){
           //4 green 
-          objectDetected =1;
+          objectDetected = 1;
           high(3);
-          pause(100);
+          pause(1000);
           low(3);
-          pause(100);
+          pause(1000);
           //5 red
           high(2);
-          pause(100);
+          pause(1000);
           low(2);
-          pause(100); 
+          pause(1000); 
       }   
       else { objectDetected = 0;}         
     }          
