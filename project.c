@@ -20,8 +20,9 @@ void stop();
 void streetCounter(void *par);
 
 
-static volatile int objectDetected,rightFlag, avg, cm_dist,position, intersection, intersectionCount, direction, streetNo, UpOrDown, A, B;
+static volatile int objectDetected,rightFlag, avg, cm_dist,position, intersection, intersectionCount, direction, UpOrDown, A, B;
 static volatile int centerFlag = 1;
+static volatile int streetNo = -1;
 
 
 
@@ -51,8 +52,9 @@ int main()                                    // Main function
 void lineFollower (void *par){
   
   
-  //simpleterm_open();
-  //print("hello\n");
+  simpleterm_open();
+  
+  print("hello\n");
   for (int i =0; i<=5; i++){  
         high(26);
         pause(100);
@@ -62,6 +64,7 @@ void lineFollower (void *par){
   
   UpOrDown=1;
   int objectDetectedNo = 0; 
+  int turnedRight, turnedLeft;
   int time[8];
     while(objectDetectedNo<2){
      //print("streetno = %d\n",intersection);        
@@ -107,40 +110,47 @@ void lineFollower (void *par){
       }        
       
       if(centerFlag==1 && objectDetected){
-        if(streetNo%2==1){
+        if(streetNo%2==0){
           //print("does this print\n");
           turn('R');
           UpOrDown=!UpOrDown;
           centerFlag = 0;
-          A=1;
+          turnedRight = 1;
         }
-        else {
+        else if(streetNo%2 == 1 && centerFlag == 1){
         turn('L');
         UpOrDown=!UpOrDown;
         centerFlag = 0;
-        B=1;
+        turnedLeft =1;
         }                 
       }
       else if((A==1||B==1) &&  objectDetected){
-        objectDetected=objectDetected+1;
+        objectDetectedNo=objectDetectedNo+1;
       } 
       else if(A==1||B==1){
         if(streetNo == 1){ //might be wrong
-            A=0;
-            B=1;
-            //print("or this print\n");
+            print("or this print\n");
             turn('R');
             UpOrDown=!UpOrDown;
           }        
         
         else if (streetNo == 4) {
-          B=0;
-          A=1;
+          
           //print("or maybe this print\n");
           turn('R');
           UpOrDown=!UpOrDown;
+          } 
+          
         } 
-      }                    
+        else if (A == 0 && B == 0){
+        turn('R');
+        UpOrDown=!UpOrDown;
+          if (turnedLeft == 1){
+            A=1;
+          }else if (turnedRight == 1){
+            B=1;                       
+          }          
+        }                    
     }      
 } 
 
@@ -148,62 +158,16 @@ int measure () // Main function
 {
     int cmDist = ping_cm(15); // Get cm distance from Ping)))
     int cm_dist = cmDist;
-    print("cmDist = %d\n", cmDist);
+    //print("cmDist = %d\n", cmDist);
     pause(200); // Wait 1/5 second
     //cm_dist = cm_dist+cmDist;
     return cmDist;
 }
 
-/*void scan(void *par)
-{  
-  simpleterm_open();
-  print("Inside scan\n");
-  while(1){
-    int waitTime = 400;
-
-    //char k = (char)dir[0];
-    char k ='L';
-    print("direction = %c\n", k);
-    //pause(200);
-    
-    switch (k)
-    {
-    case 'L':
-      servo_angle(6, 1600);
-      pause(400);
-      break;
-   
-    case 'R':
-      servo_angle(6, 100);
-      pause(400);
-      break;
-   
-    case 'C':
-      servo_angle(6, 800);
-      pause(400);
-      break;
-      default:
-      break;
-    }
-    
-    int cm_dist = measure();
-    if(cm_dist<11){
-      high(2);
-      pause(100);
-      low(2);
-      pause(100);
-      //5 red
-      high(3);
-      pause(100);
-      low(3);
-      pause(100);
-    }    
-  }    
-}*/
 
 void scan(void *par){
-  simpleterm_open();
-  print("hello in scan\n");
+  //simpleterm_open();
+  //print("hello in scan\n");
   while(1){
     if(centerFlag){
       servo_angle(6,700);
@@ -219,31 +183,33 @@ void scan(void *par){
       if(cm_dist<30){
          //4 green 
           objectDetected =1;
-          high(2);
+          high(3);
           pause(100);
           low(3);
           pause(100);
           //5 red
           high(2);
           pause(100);
-          low(3);
+          low(2);
           pause(100); 
-     }      
+     }   
+     else { objectDetected = 0;}  
     }
     else{
        if(cm_dist<11){
           //4 green 
           objectDetected =1;
-          high(2);
+          high(3);
           pause(100);
           low(3);
           pause(100);
           //5 red
           high(2);
           pause(100);
-          low(3);
+          low(2);
           pause(100); 
-      }           
+      }   
+      else { objectDetected = 0;}         
     }          
   }  
 }
@@ -299,13 +265,13 @@ void streetCounter(void *par){
           streetNo=streetNo+1;
          
         }
+           
+        } 
         intersection=0; 
         for(int blink = 0; blink<5;blink++)  {
           high(5); high(4);
           pause(200);
-          low(5);low(4);
-           
-        }                      
+          low(5);low(4);                     
       }      
     }    
   }  
