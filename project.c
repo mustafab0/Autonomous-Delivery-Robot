@@ -115,42 +115,33 @@ void lineFollower (void *par){
           turn('R');
           UpOrDown=!UpOrDown;
           centerFlag = 0;
-          turnedRight = 1;
+          A = 1;
         }
         else if(streetNo%2 == 1 && centerFlag == 1){
         turn('L');
         UpOrDown=!UpOrDown;
         centerFlag = 0;
-        turnedLeft =1;
+        B =1;
         }                 
       }
       else if((A==1||B==1) &&  objectDetected){
         objectDetectedNo=objectDetectedNo+1;
       } 
-      else if(A==1||B==1){
-        if(streetNo == 1){ //might be wrong
-            print("or this print\n");
+      else if(A==1 && streetNo ==1){
             turn('R');
             UpOrDown=!UpOrDown;
-          }        
+            A == 0;
+      }        
         
-        else if (streetNo == 4) {
-          
-          //print("or maybe this print\n");
+      else if (streetNo == 4 && B == 1 ) {
           turn('R');
           UpOrDown=!UpOrDown;
-          } 
-          
-        } 
-        else if (A == 0 && B == 0){
-        turn('R');
-        UpOrDown=!UpOrDown;
-          if (turnedLeft == 1){
-            A=1;
-          }else if (turnedRight == 1){
-            B=1;                       
-          }          
-        }                    
+          B==0;
+      } 
+      else if ((A == 1 || B== 1) && intersection == 1 && UpOrDown == 0){
+         turn('R');
+         UpOrDown=!UpOrDown;
+      }                        
     }      
 } 
 
