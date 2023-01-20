@@ -1,5 +1,9 @@
 # Autonomous Delivery Robot
-An Autonomous delivery robot that navigates in a grid map using Djikstra's algorithm for path planning. THe robot also has an on-board real-time camera detection system that detects enemies/friendlies and takes appropriate action. 
+An autonomous delivery robot that navigates in a grid-map using Djikstra's algorithm for path planning. The path planning algorithm runs on a Raspberry Pi and the path information is sent over UART serial interface to a multi-core microcontroller that moves the robot accordingly.
+
+The path planning occurs based on a real-time object detection and line following running on separate cores on the micro-controller using an ultrasonic and infrared sensor array respectively.
+
+The system also includes a robot perception system that runs on the raspberry Pi to detect an enemy/friendly and sends information over the Serial Comm.
 
 ![Delivery Robot](images/bot.png)
 
