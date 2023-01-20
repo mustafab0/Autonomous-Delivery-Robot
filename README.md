@@ -3,4 +3,4 @@ Line follower bot in a grid environment using the propeller microcontroller boar
 
 Since a major part of the project was to use two devices together we decided to break our solution into two halves and assign each device to perform a specific task. The following is how we broke down the solution.
 
-![Project Breakdown](workflow.png)
+![Project Breakdown](images/workflow.png)
