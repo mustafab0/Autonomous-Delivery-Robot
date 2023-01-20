@@ -1,4 +1,4 @@
-# propeller_project
+# Autonomous Delivery Robot
 An Autonomous delivery robot that navigates in a grid map using Djikstra's algorithm for path planning. THe robot also has an on-board real-time camera detection system that detects enemies/friendlies and takes appropriate action. 
 
 ![Delivery Robot](images/bot.png)
